@@ -13,25 +13,7 @@ public class Sint97P2 extends HttpServlet {
         String pphase = request.getParameter("pphase");
 
         if (pphase == null || pphase.equals("0")) {
-            response.setContentType("text/html");
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter out = response.getWriter();
-
-            out.println("<html>");
-            out.println("<head><title>Fase 0</title></head>");
-            out.println("<body>");
-
-            out.println("<h2>Bienvenido al catálogo de películas</h2>");
-            out.println("<p>Fichero procesado: <a href=\"" + MML_URL + "\">" + MML_URL + "</a></p>");
-            out.println("<p>Tu IP es: " + request.getRemoteAddr() + "</p>");
-
-            out.println("<p id='navegador'></p>");
-            out.println("<script>");
-            out.println("document.getElementById('navegador').innerHTML = 'Navegador: ' + navigator.userAgent;");
-            out.println("</script>");
-
-            out.println("<p>Autor: Aarón</p>");
-            out.println("</body></html>");
+            FrontEnd.sendHTMLF0(response, MML_URL, request.getRemoteAddr());
         }
     }
 }
