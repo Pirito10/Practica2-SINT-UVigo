@@ -53,6 +53,9 @@ public class Sint97P2 extends HttpServlet {
     }
 
     public void doGetFase3(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        FrontEnd.sendHTMLF3(res);
+        String lang = req.getParameter("plang");
+        String cast = req.getParameter("pidC");
+        ArrayList<Movie> moviesList = DataModel.getMovies(cast);
+        FrontEnd.sendHTMLF3(res, lang, cast, moviesList);
     }
 }
