@@ -29,29 +29,30 @@ public class DataModel {
 
     }
 
-    public static ArrayList<String> getLangs() {
+    public static ArrayList<String> getYears() {
         init();
 
-        HashSet<String> setLangs = new HashSet<>();
+        HashSet<String> setYears = new HashSet<>();
         NodeList movies = doc.getElementsByTagName("movie");
 
         for (int i = 0; i < movies.getLength(); i++) {
             Element movie = (Element) movies.item(i);
-            String attrLangs = movie.getAttribute("langs");
-            if (attrLangs != null && !attrLangs.isEmpty()) {
-                String[] langs = attrLangs.trim().split("\\s+");
-                for (String lang : langs) {
-                    setLangs.add(lang);
+            NodeList yearNodes = movie.getElementsByTagName("year");
+
+            if (yearNodes.getLength() > 0) {
+                String year = yearNodes.item(0).getTextContent().trim();
+                if (!year.isEmpty()) {
+                    setYears.add(year);
                 }
             }
         }
 
-        ArrayList<String> listaLangs = new ArrayList<>(setLangs);
-        Collections.sort(listaLangs);
-        return listaLangs;
+        ArrayList<String> listaYears = new ArrayList<>(setYears);
+        Collections.sort(listaYears, Collections.reverseOrder());
+        return listaYears;
     }
 
-    public static ArrayList<Cast> getCast(String lang) {
+    public static ArrayList<Cast> getCast(String year) {
         init();
 
         HashMap<String, Cast> mapaCasts = new HashMap<>();
@@ -59,8 +60,11 @@ public class DataModel {
 
         for (int i = 0; i < movies.getLength(); i++) {
             Element movie = (Element) movies.item(i);
-            String attrLangs = movie.getAttribute("langs");
-            if (attrLangs != null && attrLangs.matches(".*\\b" + lang + "\\b.*")) {
+            NodeList yearNodes = movie.getElementsByTagName("year");
+
+            if (yearNodes.getLength() > 0) {
+                String movieYear = yearNodes.item(0).getTextContent().trim();
+                if (movieYear.equals(year)) {
                 NodeList casts = movie.getElementsByTagName("cast");
 
                 for (int j = 0; j < casts.getLength(); j++) {
@@ -68,19 +72,18 @@ public class DataModel {
                     String idC = cast.getAttribute("idC");
 
                     if (!mapaCasts.containsKey(idC)) {
-                        String name = cast.getElementsByTagName("name").item(0).getTextContent();
-                        String role = cast.getElementsByTagName("role").item(0).getTextContent();
+                            String name = cast.getElementsByTagName("name").item(0).getTextContent().trim();
+                            String role = cast.getElementsByTagName("role").item(0).getTextContent().trim();
 
                         mapaCasts.put(idC, new Cast(idC, name, role));
+                        }
                     }
                 }
             }
         }
 
         ArrayList<Cast> listaCast = new ArrayList<>(mapaCasts.values());
-
         Collections.sort(listaCast, (a, b) -> a.getId().compareTo(b.getId()));
-
         return listaCast;
     }
 

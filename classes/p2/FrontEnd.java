@@ -35,7 +35,7 @@ public class FrontEnd {
         out.println("</body></html>");
     }
 
-    public static void sendHTMLF1(HttpServletResponse res, ArrayList<String> listaLangs) throws IOException {
+    public static void sendHTMLF1(HttpServletResponse res, ArrayList<String> listaYears) throws IOException {
         res.setContentType("text/html");
         res.setCharacterEncoding("utf-8");
         PrintWriter out = res.getWriter();
@@ -46,11 +46,11 @@ public class FrontEnd {
 
         out.println("<h1>Servicio de información sobre películas</h1>");
         out.println("<h2>Fase 1</h2>");
-        out.println("<p>Selecciona un idioma:</p>");
+        out.println("<p>Selecciona un año:</p>");
         out.println("<ol>");
 
-        for (String lang : listaLangs) {
-            out.println("<li><a href='P2M?pphase=2&plang=" + lang + "'>" + lang + "</a></li>");
+        for (String year : listaYears) {
+            out.println("<li><a href='P2M?pphase=2&pyear=" + year + "'>" + year + "</a></li>");
         }
 
         out.println("</ol>");
@@ -64,7 +64,7 @@ public class FrontEnd {
         out.println("</body></html>");
     }
 
-    public static void sendHTMLF2(HttpServletResponse res, String lang,
+    public static void sendHTMLF2(HttpServletResponse res, String year,
             ArrayList<Cast> listaCast) throws IOException {
         res.setContentType("text/html");
         res.setCharacterEncoding("utf-8");
@@ -75,12 +75,12 @@ public class FrontEnd {
         out.println("<body>");
 
         out.println("<h1>Servicio de información sobre películas</h1>");
-        out.println("<h2>Fase 2 (idioma = " + lang + ")</h2>");
+        out.println("<h2>Fase 2 (idioma = " + year + ")</h2>");
         out.println("<p>Selecciona un actor/actriz:</p>");
         out.println("<ol>");
 
         for (Cast c : listaCast) {
-            out.println("<li>Nombre = <a href='P2M?pphase=3&plang=" + lang + "&pidC=" +
+            out.println("<li>Nombre = <a href='P2M?pphase=3&pyear=" + year + "&pidC=" +
                     c.getId() + "'>"
                     + c.getName() + "</a> --- idC=" + c.getId() + "</li>");
         }
@@ -101,7 +101,7 @@ public class FrontEnd {
         out.println("</body></html>");
     }
 
-    public static void sendHTMLF3(HttpServletResponse res, String lang, String cast, ArrayList<Movie> moviesList)
+    public static void sendHTMLF3(HttpServletResponse res, String year, String cast, ArrayList<Movie> moviesList)
             throws IOException {
         res.setContentType("text/html");
         res.setCharacterEncoding("utf-8");
@@ -129,7 +129,7 @@ public class FrontEnd {
 
         out.println("<form method='get' action='P2M'>");
         out.println("<input type='hidden' name='pphase' value='2'>");
-        out.println("<input type='hidden' name='plang' value='" + lang + "'>");
+        out.println("<input type='hidden' name='pyear' value='" + year + "'>");
         out.println("<input type='submit' value='Atrás'>");
         out.println("</form>");
 

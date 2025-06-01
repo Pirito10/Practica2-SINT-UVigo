@@ -42,20 +42,20 @@ public class Sint97P2 extends HttpServlet {
     }
 
     public void doGetFase1(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        ArrayList<String> listaLangs = DataModel.getLangs();
-        FrontEnd.sendHTMLF1(res, listaLangs);
+        ArrayList<String> listaYears = DataModel.getYears();
+        FrontEnd.sendHTMLF1(res, listaYears);
     }
 
     public void doGetFase2(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        String lang = req.getParameter("plang");
-        ArrayList<Cast> listaCast = DataModel.getCast(lang);
-        FrontEnd.sendHTMLF2(res, lang, listaCast);
+        String year = req.getParameter("pyear");
+        ArrayList<Cast> listaCast = DataModel.getCast(year);
+        FrontEnd.sendHTMLF2(res, year, listaCast);
     }
 
     public void doGetFase3(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        String lang = req.getParameter("plang");
+        String year = req.getParameter("pyear");
         String cast = req.getParameter("pidC");
         ArrayList<Movie> moviesList = DataModel.getMovies(cast);
-        FrontEnd.sendHTMLF3(res, lang, cast, moviesList);
+        FrontEnd.sendHTMLF3(res, year, cast, moviesList);
     }
 }
