@@ -3,7 +3,7 @@ package p2;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.TreeSet;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -34,27 +34,30 @@ public class DataModel {
         }
     }
 
+    // Método para obtener los años disponibles
     public static ArrayList<String> getYears() {
+        // Inicializamos el árbol DOM
         init();
 
-        HashSet<String> setYears = new HashSet<>();
+        // Creamos un TreeSet para almacenar los años ordenados y sin duplicados
+        TreeSet<String> years = new TreeSet<>(Collections.reverseOrder());
+        // Obtenemos todos los elementos "movie"
         NodeList movies = doc.getElementsByTagName("movie");
 
+        // Recorremos la lista
         for (int i = 0; i < movies.getLength(); i++) {
+            // Obtenemos el elemento "movie"
             Element movie = (Element) movies.item(i);
-            NodeList yearNodes = movie.getElementsByTagName("year");
-
-            if (yearNodes.getLength() > 0) {
-                String year = yearNodes.item(0).getTextContent().trim();
-                if (!year.isEmpty()) {
-                    setYears.add(year);
-                }
-            }
+            // Obtenemos su elemento "year"
+            NodeList yearNode = movie.getElementsByTagName("year");
+            // Obtenemos su contenido
+            String year = yearNode.item(0).getTextContent();
+            // Añadimos el año al TreeSet
+            years.add(year);
         }
 
-        ArrayList<String> listaYears = new ArrayList<>(setYears);
-        Collections.sort(listaYears, Collections.reverseOrder());
-        return listaYears;
+        // Convertimos el TreeSet a ArrayList y lo devolvemos
+        return new ArrayList<>(years);
     }
 
     public static ArrayList<Cast> getCast(String year) {
