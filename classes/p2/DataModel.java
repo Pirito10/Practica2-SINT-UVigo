@@ -80,7 +80,7 @@ public class DataModel {
             String movieYear = yearNode.item(0).getTextContent();
 
             // Comprobamos si el año de la película coincide con el año solicitado
-                if (movieYear.equals(year)) {
+            if (movieYear.equals(year)) {
                 // Obtenemos sus elementos "cast"
                 NodeList casts = movie.getElementsByTagName("cast");
 
@@ -99,10 +99,10 @@ public class DataModel {
                         String name = nameNode.item(0).getTextContent();
                         // Creamos un nuevo objeto Cast y lo añadimos al HashMap
                         castsMap.put(idC, new Cast(idC, name));
-                        }
                     }
                 }
             }
+        }
 
         // Convertimos el HashMap a ArrayList
         ArrayList<Cast> casts = new ArrayList<>(castsMap.values());
