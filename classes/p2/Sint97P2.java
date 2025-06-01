@@ -5,15 +5,49 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 
 public class Sint97P2 extends HttpServlet {
-    private static final String MML_URL = "https://luis.sabucedo.webs.uvigo.es/24-25/p2/mml.xml";
+    private static final String URL = "https://luis.sabucedo.webs.uvigo.es/24-25/p2/mml.xml";
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        String fase = req.getParameter("pphase");
 
-        String pphase = request.getParameter("pphase");
-
-        if (pphase == null || pphase.equals("0")) {
-            FrontEnd.sendHTMLF0(response, MML_URL, request.getRemoteAddr());
+        if (fase == null) {
+            fase = "0";
         }
+
+        switch (fase) {
+            case "0":
+                this.doGetFase0(req, res);
+                break;
+            case "1":
+                this.doGetFase1(req, res);
+                break;
+            case "2":
+                this.doGetFase2(req, res);
+                break;
+            case "3":
+                this.doGetFase3(req, res);
+                break;
+            default:
+                this.doGetFase0(req, res);
+                break;
+        }
+    }
+
+    public void doGetFase0(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        String IP = req.getRemoteAddr();
+        FrontEnd.sendHTMLF0(res, URL, IP);
+    }
+
+    public void doGetFase1(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        FrontEnd.sendHTMLF1(res);
+    }
+
+    public void doGetFase2(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        FrontEnd.sendHTMLF2(res);
+    }
+
+    public void doGetFase3(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        FrontEnd.sendHTMLF3(res);
     }
 }
