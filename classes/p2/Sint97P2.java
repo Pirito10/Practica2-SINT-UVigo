@@ -1,6 +1,8 @@
 package p2;
 
 import java.io.*;
+import java.util.ArrayList;
+
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 
@@ -40,7 +42,8 @@ public class Sint97P2 extends HttpServlet {
     }
 
     public void doGetFase1(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        FrontEnd.sendHTMLF1(res);
+        ArrayList<String> listaLangs = DataModel.getLangs();
+        FrontEnd.sendHTMLF1(res, listaLangs);
     }
 
     public void doGetFase2(HttpServletRequest req, HttpServletResponse res) throws IOException {
