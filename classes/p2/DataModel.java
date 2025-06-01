@@ -2,6 +2,7 @@ package p2;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,5 +49,38 @@ public class DataModel {
         ArrayList<String> listaLangs = new ArrayList<>(setLangs);
         Collections.sort(listaLangs);
         return listaLangs;
+    }
+
+    public static ArrayList<Cast> getCast(String lang) {
+        init();
+
+        HashMap<String, Cast> mapaCasts = new HashMap<>();
+        NodeList movies = doc.getElementsByTagName("movie");
+
+        for (int i = 0; i < movies.getLength(); i++) {
+            Element movie = (Element) movies.item(i);
+            String attrLangs = movie.getAttribute("langs");
+            if (attrLangs != null && attrLangs.matches(".*\\b" + lang + "\\b.*")) {
+                NodeList casts = movie.getElementsByTagName("cast");
+
+                for (int j = 0; j < casts.getLength(); j++) {
+                    Element cast = (Element) casts.item(j);
+                    String idC = cast.getAttribute("idC");
+
+                    if (!mapaCasts.containsKey(idC)) {
+                        String name = cast.getElementsByTagName("name").item(0).getTextContent();
+                        String role = cast.getElementsByTagName("role").item(0).getTextContent();
+
+                        mapaCasts.put(idC, new Cast(idC, name, role));
+                    }
+                }
+            }
+        }
+
+        ArrayList<Cast> listaCast = new ArrayList<>(mapaCasts.values());
+
+        Collections.sort(listaCast, (a, b) -> a.getId().compareTo(b.getId()));
+
+        return listaCast;
     }
 }
