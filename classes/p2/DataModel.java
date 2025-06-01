@@ -83,4 +83,34 @@ public class DataModel {
 
         return listaCast;
     }
+
+    public static ArrayList<Movie> getMovies(String idC) {
+        init();
+
+        ArrayList<Movie> moviesList = new ArrayList<>();
+
+        NodeList movies = doc.getElementsByTagName("movie");
+
+        for (int i = 0; i < movies.getLength(); i++) {
+            Element movie = (Element) movies.item(i);
+            NodeList casts = movie.getElementsByTagName("cast");
+
+            for (int j = 0; j < casts.getLength(); j++) {
+                Element cast = (Element) casts.item(j);
+                if (cast.getAttribute("idC").equals(idC)) {
+                    String idM = movie.getAttribute("idM");
+                    String title = movie.getElementsByTagName("title").item(0).getTextContent().trim();
+                    String year = movie.getElementsByTagName("year").item(0).getTextContent().trim();
+
+                    moviesList.add(new Movie(idM, title, year));
+                    break; // no hace falta revisar más cast de esta movie
+                }
+            }
+        }
+
+        // Ordenar por idM
+        Collections.sort(moviesList, (a, b) -> a.getId().compareTo(b.getId()));
+
+        return moviesList;
+    }
 }
