@@ -6,9 +6,6 @@ import jakarta.servlet.http.*;
 
 // Clase principal del servlet
 public class Sint97P2 extends HttpServlet {
-    // URL del fichero XML con los datos
-    private static final String URL = "https://luis.sabucedo.webs.uvigo.es/24-25/p2/mml.xml";
-
     // Método que se invoca al recibir una solicitud al servlet
     public void doGet(HttpServletRequest req, HttpServletResponse res)
             throws IOException {
@@ -41,6 +38,8 @@ public class Sint97P2 extends HttpServlet {
     public void doGetFase0(HttpServletRequest req, HttpServletResponse res) throws IOException {
         // Obtenemos la IP del cliente
         String IP = req.getRemoteAddr();
+        // Obtenemos la URL del fichero XML
+        String URL = DataModel.URL;
         // Generamos y enviamos el HTML correspondiente
         FrontEnd.sendHTMLF0(res, URL, IP);
     }

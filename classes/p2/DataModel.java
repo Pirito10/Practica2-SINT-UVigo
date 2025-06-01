@@ -10,23 +10,28 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+// Clase para gestionar el modelo de datos
 public class DataModel {
-    private static final String URL = "https://luis.sabucedo.webs.uvigo.es/24-25/p2/mml.xml";
+    // URL del fichero XML con los datos
+    public static final String URL = "https://luis.sabucedo.webs.uvigo.es/24-25/p2/mml.xml";
+
+    // Creamos un árbol DOM
     private static Document doc = null;
 
+    // Método para inicializar el árbol DOM
     private static void init() {
+        // Si ya está inicializado, no hacemos nada
         if (doc != null)
             return;
 
         try {
+            // Cargamos y parseamos el archivo XML, y lo convertimos al árbol DOM
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             doc = db.parse(URL);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to initialize DataModel: " + e.getMessage());
         }
-
     }
 
     public static ArrayList<String> getYears() {
