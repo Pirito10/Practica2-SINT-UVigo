@@ -6,7 +6,7 @@ public class Cast {
     private String name;
 
     // Constructor
-    public Cast(String id, String name, String role) {
+    public Cast(String id, String name) {
         this.id = id;
         this.name = name;
     }
