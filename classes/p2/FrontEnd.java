@@ -101,7 +101,39 @@ public class FrontEnd {
         out.println("</body></html>");
     }
 
-    public static void sendHTMLF3(HttpServletResponse res) throws IOException {
+    public static void sendHTMLF3(HttpServletResponse res, String lang, String cast, ArrayList<Movie> moviesList)
+            throws IOException {
+        res.setContentType("text/html");
+        res.setCharacterEncoding("utf-8");
+        PrintWriter out = res.getWriter();
 
+        out.println("<html>");
+        out.println("<head><title>Fase 3</title></head>");
+        out.println("<body>");
+
+        out.println("<h1>Servicio de información sobre películas</h1>");
+        out.println("<h2>Fase 3 (cast = " + cast + ")</h2>");
+        out.println("<p>Películas disponibles:</p>");
+        out.println("<ol>");
+        for (Movie m : moviesList) {
+            out.println("<li><strong>Título</strong> = '" + m.getTitle() +
+                    "' --- <strong>Año</strong> = " + m.getYear() +
+                    " --- <strong>idM</strong> = " + m.getId() + "</li>");
+        }
+        out.println("</ol>");
+
+        out.println("<form method='get' action='P2M'>");
+        out.println("<input type='hidden' name='pphase' value='0'>");
+        out.println("<input type='submit' value='Inicio'>");
+        out.println("</form>");
+
+        out.println("<form method='get' action='P2M'>");
+        out.println("<input type='hidden' name='pphase' value='2'>");
+        out.println("<input type='hidden' name='plang' value='" + lang + "'>");
+        out.println("<input type='submit' value='Atrás'>");
+        out.println("</form>");
+
+        out.println("<p>Aarón Riveiro Vilar (2024-2025)</p>");
+        out.println("</body></html>");
     }
 }
