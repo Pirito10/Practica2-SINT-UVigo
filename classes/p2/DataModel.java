@@ -44,7 +44,7 @@ public class DataModel {
         // Obtenemos todos los elementos "movie"
         NodeList movies = doc.getElementsByTagName("movie");
 
-        // Recorremos la lista
+        // Recorremos la lista de películas
         for (int i = 0; i < movies.getLength(); i++) {
             // Obtenemos el elemento "movie"
             Element movie = (Element) movies.item(i);
@@ -60,39 +60,54 @@ public class DataModel {
         return new ArrayList<>(years);
     }
 
+    // Método para obtener los actores/actrices de un año
     public static ArrayList<Cast> getCast(String year) {
+        // Inicializamos el árbol DOM
         init();
 
-        HashMap<String, Cast> mapaCasts = new HashMap<>();
+        // Creamos un HashMap para almacenar los actores/actrices
+        HashMap<String, Cast> castsMap = new HashMap<>();
+        // Obtenemos todos los elementos "movie"
         NodeList movies = doc.getElementsByTagName("movie");
 
+        // Recorremos la lista de películas
         for (int i = 0; i < movies.getLength(); i++) {
+            // Obtenemos el elemento "movie"
             Element movie = (Element) movies.item(i);
-            NodeList yearNodes = movie.getElementsByTagName("year");
-
-            if (yearNodes.getLength() > 0) {
-                String movieYear = yearNodes.item(0).getTextContent().trim();
+            // Obtenemos su elemento "year"
+            NodeList yearNode = movie.getElementsByTagName("year");
+            // Obtenemos su contenido
+            String movieYear = yearNode.item(0).getTextContent();
                 if (movieYear.equals(year)) {
+                // Obtenemos sus elementos "cast"
                 NodeList casts = movie.getElementsByTagName("cast");
 
+                // Recorremos la lista de actores/actrices
                 for (int j = 0; j < casts.getLength(); j++) {
+                    // Obtenemos el elemento "cast"
                     Element cast = (Element) casts.item(j);
+                    // Obtenemos su atributo "idC"
                     String idC = cast.getAttribute("idC");
 
-                    if (!mapaCasts.containsKey(idC)) {
-                            String name = cast.getElementsByTagName("name").item(0).getTextContent().trim();
-                            String role = cast.getElementsByTagName("role").item(0).getTextContent().trim();
-
-                        mapaCasts.put(idC, new Cast(idC, name, role));
+                    // Comprobamos si el ID del actor/actriz ya está en el HashMap
+                    if (!castsMap.containsKey(idC)) {
+                        // Obtenemos su elemento "name"
+                        NodeList nameNode = cast.getElementsByTagName("name");
+                        // Obtenemos su contenido
+                        String name = nameNode.item(0).getTextContent();
+                        // Creamos un nuevo objeto Cast y lo añadimos al HashMap
+                        castsMap.put(idC, new Cast(idC, name));
                         }
                     }
                 }
             }
-        }
 
-        ArrayList<Cast> listaCast = new ArrayList<>(mapaCasts.values());
-        Collections.sort(listaCast, (a, b) -> a.getId().compareTo(b.getId()));
-        return listaCast;
+        // Convertimos el HashMap a ArrayList
+        ArrayList<Cast> casts = new ArrayList<>(castsMap.values());
+        // Ordenamos la lista por ID
+        Collections.sort(casts, (a, b) -> a.getId().compareTo(b.getId()));
+        // Devolvemos la lista
+        return casts;
     }
 
     public static ArrayList<Movie> getMovies(String idC) {
