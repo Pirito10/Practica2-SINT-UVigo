@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE web-app 
-          PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+<!DOCTYPE web-app
+          PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
          "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app version="2.4">
      <display-name>Servlet P2</display-name>
@@ -11,6 +11,10 @@
      </servlet>
      <servlet-mapping>
            <servlet-name>Servlet P2</servlet-name>
-           <url-pattern>/P2M</url-pattern>   
-</servlet-mapping>
+           <url-pattern>/P2M</url-pattern>
+      </servlet-mapping>
+      <servlet-mapping>
+           <servlet-name>Servlet P2</servlet-name>
+           <url-pattern>/P2M/v1/*</url-pattern>
+      </servlet-mapping>
 </web-app>
