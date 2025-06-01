@@ -78,6 +78,8 @@ public class DataModel {
             NodeList yearNode = movie.getElementsByTagName("year");
             // Obtenemos su contenido
             String movieYear = yearNode.item(0).getTextContent();
+
+            // Comprobamos si el año de la película coincide con el año solicitado
                 if (movieYear.equals(year)) {
                 // Obtenemos sus elementos "cast"
                 NodeList casts = movie.getElementsByTagName("cast");
@@ -110,33 +112,52 @@ public class DataModel {
         return casts;
     }
 
+    // Método para obtener las películas de un actor/actriz
     public static ArrayList<Movie> getMovies(String idC) {
+        // Inicializamos el árbol DOM
         init();
 
+        // Creamos una lista para almacenar las películas
         ArrayList<Movie> moviesList = new ArrayList<>();
-
+        // Obtenemos todos los elementos "movie"
         NodeList movies = doc.getElementsByTagName("movie");
 
+        // Recorremos la lista de películas
         for (int i = 0; i < movies.getLength(); i++) {
+            // Obtenemos el elemento "movie"
             Element movie = (Element) movies.item(i);
+            // Obtenemos sus elementos "cast"
             NodeList casts = movie.getElementsByTagName("cast");
 
+            // Recorremos la lista de actores/actrices
             for (int j = 0; j < casts.getLength(); j++) {
+                // Obtenemos el elemento "cast"
                 Element cast = (Element) casts.item(j);
-                if (cast.getAttribute("idC").equals(idC)) {
-                    String idM = movie.getAttribute("idM");
-                    String title = movie.getElementsByTagName("title").item(0).getTextContent().trim();
-                    String year = movie.getElementsByTagName("year").item(0).getTextContent().trim();
 
+                // Comprobamos si el ID del actor/actriz coincide con el ID solicitado
+                if (cast.getAttribute("idC").equals(idC)) {
+                    // Obtenemos su atributo "idM"
+                    String idM = movie.getAttribute("idM");
+                    // Obtenemos su elemento "title"
+                    NodeList titleNode = movie.getElementsByTagName("title");
+                    // Obtenemos su contenido
+                    String title = titleNode.item(0).getTextContent();
+                    // Obtenemos su elemento "year"
+                    NodeList yearNode = movie.getElementsByTagName("year");
+                    // Obtenemos su contenido
+                    String year = yearNode.item(0).getTextContent();
+
+                    // Creamos un nuevo objeto Movie y lo añadimos a la lista
                     moviesList.add(new Movie(idM, title, year));
-                    break; // no hace falta revisar más cast de esta movie
+                    // Si hemos encontrado el actor/actriz en la película, saltamos a la siguiente
+                    break;
                 }
             }
         }
 
-        // Ordenar por idM
+        // Ordenamos la lista por ID
         Collections.sort(moviesList, (a, b) -> a.getId().compareTo(b.getId()));
-
+        // Devolvemos la lista
         return moviesList;
     }
 }
