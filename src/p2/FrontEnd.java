@@ -181,6 +181,12 @@ public class FrontEnd {
 
     // Solicitud GET /cast?year={year}
     public static void sendJSONCast(HttpServletResponse res, ArrayList<Cast> casts) throws IOException {
+        // Comprobamos si la lista de actores/actrices está vacía
+        if (casts.isEmpty()) {
+            res.sendError(404, "No se encontraron actores/actrices para el año solicitado");
+            return;
+        }
+
         // Establecemos el tipo de contenido y la codificación
         res.setContentType("application/json");
         res.setCharacterEncoding("utf-8");
@@ -206,6 +212,12 @@ public class FrontEnd {
 
     // Solicitud GET /cast/{id}/movies
     public static void sendJSONMovies(HttpServletResponse res, ArrayList<Movie> movies) throws IOException {
+        // Comprobamos si la lista de películas está vacía
+        if (movies.isEmpty()) {
+            res.sendError(404, "No se encontraron películas para el actor/actriz solicitado");
+            return;
+        }
+
         // Establecemos el tipo de contenido y la codificación
         res.setContentType("application/json");
         res.setCharacterEncoding("utf-8");
