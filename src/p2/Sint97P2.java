@@ -13,7 +13,7 @@ public class Sint97P2 extends HttpServlet {
         String uri = req.getRequestURI();
 
         // Comprobamos si es una solicitud a la API
-        if (uri.contains("v1")) {
+        if (uri.contains("v2")) {
             // Obtenemos la ruta de la solicitud
             String path = req.getPathInfo();
 
@@ -102,7 +102,7 @@ public class Sint97P2 extends HttpServlet {
         FrontEnd.sendJSONYears(res, years);
     }
 
-    // Solicitud GET /cast?year={year}
+    // Solicitud GET /cast?year={Y}
     public void doGetRESTCast(HttpServletRequest req, HttpServletResponse res, String path) throws IOException {
         // Obtenemos el parámetro del año seleccionado
         String year = req.getParameter("year");

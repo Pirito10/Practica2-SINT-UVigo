@@ -179,11 +179,11 @@ public class FrontEnd {
         out.println(array);
     }
 
-    // Solicitud GET /cast?year={year}
+    // Solicitud GET /cast?year={Y}
     public static void sendJSONCast(HttpServletResponse res, ArrayList<Cast> casts) throws IOException {
         // Comprobamos si la lista de actores/actrices está vacía
         if (casts.isEmpty()) {
-            res.sendError(404, "No se encontraron actores/actrices para el año solicitado");
+            res.setStatus(404);
             return;
         }
 
@@ -214,7 +214,7 @@ public class FrontEnd {
     public static void sendJSONMovies(HttpServletResponse res, ArrayList<Movie> movies) throws IOException {
         // Comprobamos si la lista de películas está vacía
         if (movies.isEmpty()) {
-            res.sendError(404, "No se encontraron películas para el actor/actriz solicitado");
+            res.setStatus(404);
             return;
         }
 

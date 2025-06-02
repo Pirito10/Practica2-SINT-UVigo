@@ -15,6 +15,6 @@
       </servlet-mapping>
       <servlet-mapping>
            <servlet-name>Servlet P2</servlet-name>
-           <url-pattern>/P2M/v1/*</url-pattern>
+           <url-pattern>/P2M/v2/*</url-pattern>
       </servlet-mapping>
 </web-app>
