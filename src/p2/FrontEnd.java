@@ -3,6 +3,8 @@ package p2;
 import java.io.*;
 import java.util.ArrayList;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 // Clase para enviar las respuestas HTML al cliente
 public class FrontEnd {
@@ -113,7 +115,7 @@ public class FrontEnd {
     }
 
     // Fase 3: página de películas
-    public static void sendHTMLF3(HttpServletResponse res, String year, String cast, ArrayList<Movie> moviesList)
+    public static void sendHTMLF3(HttpServletResponse res, String year, String cast, ArrayList<Movie> movies)
             throws IOException {
         // Establecemos el tipo de contenido y la codificación
         res.setContentType("text/html");
@@ -130,7 +132,7 @@ public class FrontEnd {
 
         out.println("<p>Películas disponibles:</p>");
         out.println("<ol>");
-        for (Movie movie : moviesList) {
+        for (Movie movie : movies) {
             out.println("<li><strong>Título</strong> = '" + movie.getTitle() +
                     "' --- <strong>Año</strong> = " + movie.getYear() +
                     " --- <strong>idM</strong> = " + movie.getId() + "</li>");
@@ -151,5 +153,80 @@ public class FrontEnd {
         out.println("<p>© Aarón Riveiro Vilar (2024-2025)</p>");
         out.println("</body>");
         out.println("</html>");
+    }
+
+    // Solicitud GET /years
+    public static void sendJSONYears(HttpServletResponse res, ArrayList<String> years) throws IOException {
+        // Establecemos el tipo de contenido y la codificación
+        res.setContentType("application/json");
+        res.setCharacterEncoding("utf-8");
+        // Obtenemos el objeto PrintWriter para escribir la respuesta
+        PrintWriter out = res.getWriter();
+
+        // Creamos un JSONArray para almacenar los años
+        JSONArray array = new JSONArray();
+
+        // Recorremos la lista de años
+        for (String year : years) {
+            // Creamos un objeto para cada año
+            JSONObject obj = new JSONObject();
+            obj.put("year", year);
+            // Lo añadimos al array
+            array.put(obj);
+        }
+
+        // Escribimos el array en la respuesta
+        out.println(array);
+    }
+
+    // Solicitud GET /cast?year={year}
+    public static void sendJSONCast(HttpServletResponse res, ArrayList<Cast> casts) throws IOException {
+        // Establecemos el tipo de contenido y la codificación
+        res.setContentType("application/json");
+        res.setCharacterEncoding("utf-8");
+        // Obtenemos el objeto PrintWriter para escribir la respuesta
+        PrintWriter out = res.getWriter();
+
+        // Creamos un JSONArray para almacenar los actores/actrices
+        JSONArray array = new JSONArray();
+
+        // Recorremos la lista de actores/actrices
+        for (Cast cast : casts) {
+            // Creamos un objeto para cada actor/actriz
+            JSONObject obj = new JSONObject();
+            obj.put("name", cast.getName());
+            obj.put("idC", cast.getId());
+            // Lo añadimos al array
+            array.put(obj);
+        }
+
+        // Escribimos el array en la respuesta
+        out.println(array);
+    }
+
+    // Solicitud GET /cast/{id}/movies
+    public static void sendJSONMovies(HttpServletResponse res, ArrayList<Movie> movies) throws IOException {
+        // Establecemos el tipo de contenido y la codificación
+        res.setContentType("application/json");
+        res.setCharacterEncoding("utf-8");
+        // Obtenemos el objeto PrintWriter para escribir la respuesta
+        PrintWriter out = res.getWriter();
+
+        // Creamos un JSONArray para almacenar las películas
+        JSONArray array = new JSONArray();
+
+        // Recorremos la lista de películas
+        for (Movie movie : movies) {
+            // Creamos un objeto para cada película
+            JSONObject obj = new JSONObject();
+            obj.put("title", movie.getTitle());
+            obj.put("idM", movie.getId());
+            obj.put("year", movie.getYear());
+            // Lo añadimos al array
+            array.put(obj);
+        }
+
+        // Escribimos el array en la respuesta
+        out.println(array);
     }
 }
